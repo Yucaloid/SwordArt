@@ -1,53 +1,86 @@
-# SwordArt: Procedural Dungeon Crawler
+# ⚔️ SwordArt: Procedural Dungeon Crawler
 
-> A 2D Python-based engine demonstrating procedural content generation (PCG) using recursive division algorithms and spatial hashing for physics optimization.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
+![Arcade](https://img.shields.io/badge/Library-Arcade-red?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Refactored-success?style=for-the-badge)
 
-## 🗺️ Project Overview
-**SwordArt** is a technical implementation of a roguelike dungeon explorer. Unlike static game maps, this engine generates a unique level layout upon every execution. It features a custom **Kinematic Character Controller** utilizing vector-based movement and a directional hitbox combat system.
+Bienvenido a **SwordArt**, un juego de exploración de mazmorras (Dungeon Crawler) generado procedimentalmente y desarrollado en Python utilizando la librería `arcade`.
 
-The project emphasizes algorithmic efficiency in map generation and entity management within the **Arcade** framework.
+Este repositorio es un híbrido entre un archivo histórico y un proyecto moderno: contiene tanto la versión original (**Legacy**) con la que aprendí a programar, como una versión modernizada (**Refactored**) adaptada a los estándares actuales.
 
-## 🚀 Key Features
-
-* **Procedural Map Generation:** Implements a **Recursive Split Algorithm** to divide the game space into varying sectors and carve out non-overlapping rooms.
-* **Graph Connectivity:** Automatically connects isolated rooms by calculating the Minimal Spanning Tree (logic variant) based on **Euclidean distance** between room centroids.
-* **Spatial Hashing:** Utilizes `arcade.SpriteList(use_spatial_hash=True)` to reduce collision detection complexity from $O(n^2)$ to near $O(1)$ average case.
-* **Directional Combat:** Dynamic hitbox calculation based on player facing direction (`RIGHT_FACING` / `LEFT_FACING`) with cooldown management.
-
-## 🧠 Algorithmic & Mathematical Concepts
-
-### 1. Map Generation (Recursive Division)
-The dungeon is created by recursively splitting the grid $(W, H)$ into smaller sub-rectangles (leaves).
-If a section is larger than the threshold (`MAX = 15`), it splits either horizontally or vertically:
-
-$$\text{Split}(S) = \begin{cases} \text{Horizontal Cut} & \text{if } H > W \\ \text{Vertical Cut} & \text{if } W > H \\ \text{Random} & \text{otherwise} \end{cases}$$
-
-### 2. Room Connectivity
-To connect rooms $R_1$ and $R_2$, the engine calculates the Euclidean distance between their centers $(x_1, y_1)$ and $(x_2, y_2)$ to find the closest neighbors:
-
-$$d(R_1, R_2) = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$
-
-### 3. Hitbox Logic (AABB)
-The combat system generates a temporary Axis-Aligned Bounding Box (AABB) offset by the player's position. For a generic attack range $r$:
-* **Right Attack:** $[x, x+r]$
-* **Left Attack:** $[x-r, x]$
-
-## 🛠️ Tech Stack
-* **Language:** Python 3.9+
-* **Core Library:** [Python Arcade](https://api.arcade.academy/) (Modern OpenGL context).
-* **Concepts:** Recursion, Matrix Manipulation, Collision Physics.
-
-## 💻 Installation & Usage
-
-1.  **Install Dependencies:**
-    ```bash
-    pip install arcade
-    ```
-
-2.  **Run the Engine:**
-    ```bash
-    python main.py
-    ```
 ---
-**Author:** [Johan Caro]
-*Applied Mathematics & Computer Science Student*
+
+## 📜 Nota del Autor
+
+> *"Este fue mi primer proyecto de desarrollo de videojuegos. He decidido mantener el código original (`SwordArt.py`) en el repositorio por el cariño que le tengo y para recordar mis inicios, aunque utilice una versión de la librería que ya no es el estándar. Si eres nuevo probando el juego, te sugiero usar la versión `arcade3`. Mis otros 2 compañeros aunque estuvieron en el inicio del proyecto no siguieron en el pero sus nombres se conservan en la imagen de menu"*
+
+---
+
+## 📂 Versiones del Proyecto
+
+Debido a los cambios estructurales mayores ("breaking changes") en la librería `arcade` (entre v2.6 y v3.0), no es posible ejecutar ambos scripts en el mismo entorno sin ajustar las dependencias.
+
+| Archivo | Versión Arcade | Estado | Descripción |
+| :--- | :---: | :---: | :--- |
+| **`SwordArt_arcade3.py`** | **v3.0+** | ✅ Recomendado | **Versión Refactorizada.** Incluye cámaras modernas, renderizado optimizado y un sistema de generación de mapas mejorado con túneles conectados. |
+| `SwordArt.py` | v2.5.x / v2.6 | 🏛️ Legacy | **Versión Original.** Se conserva el código intacto por valor histórico y sentimental. Requiere una versión antigua de la librería. |
+
+---
+
+## 🛠️ Tecnologías y Algoritmos
+
+El núcleo del proyecto se basa en la generación procedural para garantizar que ninguna partida sea igual a la anterior.
+
+* **Lenguaje:** Python 3
+* **Motor Gráfico:** Python Arcade Library
+* **Algoritmo Principal:** [Binary Space Partitioning (BSP)](https://es.wikipedia.org/wiki/Partici%C3%B3n_binaria_del_espacio).
+    * El mapa utiliza una estructura de árbol para dividir el espacio recursivamente.
+    * Se generan habitaciones en las hojas del árbol y se conectan mediante pasillos para crear la mazmorra jugable.
+
+---
+
+## 🚀 Instalación y Ejecución
+
+⚠️ **Advertencia:** Se recomienda encarecidamente usar **Entornos Virtuales** (`venv`) si deseas alternar entre versiones, para evitar conflictos de dependencias.
+
+### 🟢 Opción A: Versión Moderna (Recomendada)
+Utiliza las características más recientes de Python y Arcade.
+
+1. **Instalar dependencias:**
+   ```bash
+   pip install arcade
+   ```
+2. **Ejecutar el juego:**
+   ```bash
+   python SwordArt_arcade3.py
+   ```
+
+### 🟠 Opción B: Versión Legacy (Histórica)
+Para experimentar el proyecto tal como fue concebido originalmente, es necesario hacer un "downgrade" de la librería a la serie 2.x.
+
+1. **Instalar versión compatible:**
+   ```bash
+   pip install "arcade==2.6.17"
+   ```
+   *(Nota: También compatible con versiones 2.5.x)*
+
+2. **Ejecutar el juego:**
+   ```bash
+   python SwordArt.py
+   ```
+
+---
+
+## 🎮 Controles
+
+El esquema de control es clásico y sencillo:
+
+| Tecla | Acción |
+| :---: | :--- |
+| **Flechas / WASD** | Mover al personaje por la mazmorra |
+| **Z / X** | Atacar (Stab / Golpe) |
+| **ESC** | Pausar / Salir |
+
+---
+
+Made with ❤️ & Python.
