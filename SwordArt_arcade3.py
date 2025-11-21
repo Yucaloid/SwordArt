@@ -37,7 +37,7 @@ MAX_SPLIT_ITERATIONS = 15
 # Window configuration
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
-WINDOW_TITLE = "SwordArt Final - Fixed Directions"
+WINDOW_TITLE = "SwordArt Final"
 
 ###################################### 
 ############### CLASSES ##############
@@ -449,4 +449,5 @@ class MyGame(arcade.Window):
 if __name__ == "__main__":
     window = MyGame(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
     window.setup()
+
     arcade.run()
